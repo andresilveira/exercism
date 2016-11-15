@@ -17,7 +17,7 @@ defmodule NucleotideCount do
     count(strand, nucleotide, 0)
   end
 
-  def count([head|tail], nucleotide = head, acumulator) do
+  def count([nucleotide|tail], nucleotide, acumulator) do
     count(tail, nucleotide, acumulator + 1)
   end
 
@@ -40,14 +40,14 @@ defmodule NucleotideCount do
   @spec histogram([char]) :: map
   def histogram(strand) do
     initial_histogram = %{?A => 0, ?T => 0, ?C => 0, ?G => 0}
-    _histogram(strand, initial_histogram)
+    histogram(strand, initial_histogram)
   end
 
-  def _histogram([head|tail], acumulator) do
-    _histogram(tail, %{acumulator| head => acumulator[head] + 1})
+  def histogram([head|tail], acumulator) do
+    histogram(tail, %{acumulator| head => acumulator[head] + 1})
   end
 
-  def _histogram([], acumulator) do
+  def histogram([], acumulator) do
     acumulator
   end
 end
