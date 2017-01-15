@@ -13,21 +13,13 @@ defmodule NucleotideCount do
   1
   """
   @spec count([char], char) :: non_neg_integer
-  def count(strand, nucleotide) do
-    count(strand, nucleotide, 0)
-  end
+  def count(strand, nucleotide), do: count strand, nucleotide, 0
 
-  def count([nucleotide|tail], nucleotide, acumulator) do
-    count(tail, nucleotide, acumulator + 1)
-  end
+  defp count([nucleotide|tail], nucleotide, acumulator), do: count tail, nucleotide, acumulator + 1
 
-  def count([_|tail], nucleotide, acumulator) do
-    count(tail, nucleotide, acumulator)
-  end
+  defp count([_|tail], nucleotide, acumulator), do: count tail, nucleotide, acumulator
 
-  def count([], _, acumulator) do
-    acumulator
-  end
+  defp count([], _, acumulator), do: acumulator
 
   @doc """
   Returns a summary of counts by nucleotide.
@@ -43,11 +35,7 @@ defmodule NucleotideCount do
     histogram(strand, initial_histogram)
   end
 
-  def histogram([head|tail], acumulator) do
-    histogram(tail, %{acumulator| head => acumulator[head] + 1})
-  end
+  defp histogram([head|tail], acumulator), do: histogram tail, %{acumulator| head => acumulator[head] + 1}
 
-  def histogram([], acumulator) do
-    acumulator
-  end
+  defp histogram([], acumulator), do: acumulator
 end
